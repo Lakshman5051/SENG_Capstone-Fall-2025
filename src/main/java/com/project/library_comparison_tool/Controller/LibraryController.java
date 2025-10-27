@@ -34,8 +34,8 @@ public class LibraryController {
 
     // 3. get library by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Library> getLibraryById(@PathVariable String id) {
-        return libraryService.getLibraryById(UUID.fromString(id))
+    public ResponseEntity<Library> getLibraryById(@PathVariable Long id) {
+        return libraryService.getLibraryById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

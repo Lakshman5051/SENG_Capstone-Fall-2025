@@ -29,7 +29,7 @@ public class LibraryService {
     }
 
     // Get one by ID
-    public Optional<Library> getLibraryById(UUID id) {
+    public Optional<Library> getLibraryById(Long id) {
         return libraryRepository.findById(id);
     }
 

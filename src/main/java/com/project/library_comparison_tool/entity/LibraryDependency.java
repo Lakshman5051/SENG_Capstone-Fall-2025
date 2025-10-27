@@ -15,8 +15,13 @@ import java.util.UUID;
 public class LibraryDependency {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "libdep_seq")
+    @SequenceGenerator(
+            name = "libdep_seq",
+            sequenceName = "libdep_seq",
+            allocationSize = 1
+    )
+    private Long id;
 
     private String dependencyName;
 

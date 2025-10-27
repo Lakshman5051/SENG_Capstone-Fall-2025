@@ -16,8 +16,13 @@ import java.util.UUID;
 public class Library {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "library_seq")
+    @SequenceGenerator(
+            name = "library_seq",
+            sequenceName = "library_seq",
+            allocationSize = 1
+    )
+    private Long id;
 
     // Basic identity / classification
     private String name;                     // "Jackson Databind"
