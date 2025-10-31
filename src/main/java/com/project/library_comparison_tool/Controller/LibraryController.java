@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/libraries")
-@CrossOrigin(origins = "*") // later you can lock this to your React origin
+@CrossOrigin(origins = "*") // CORS-enabled
 public class LibraryController {
 
     private final LibraryService libraryService;
@@ -20,21 +20,21 @@ public class LibraryController {
         this.libraryService = libraryService;
     }
 
-    // 1. add new library
+    // add new library
     @PostMapping
     public ResponseEntity<Library> addLibrary(@RequestBody Library library) {
         Library saved = libraryService.addLibrary(library);
         return ResponseEntity.ok(saved);
     }
 
-    // 2. list all libraries
+    // list all libraries
     @GetMapping
     public ResponseEntity<List<LibraryDTO>> getAllLibraries() {
         List<Library> libraries = libraryService.getAllLibraries();
         return ResponseEntity.ok(LibraryDTO.fromEntities(libraries));
     }
 
-    // 3. get library by ID
+    // get library by ID
     @GetMapping("/{id}")
     public ResponseEntity<LibraryDTO> getLibraryById(@PathVariable Long id) {
         return libraryService.getLibraryById(id)
@@ -43,17 +43,24 @@ public class LibraryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // 4. search by name partial (fuzzy-lite)
+    // search by name partial
     @GetMapping("/search")
     public ResponseEntity<List<LibraryDTO>> searchByName(@RequestParam("name") String name) {
         List<Library> libraries = libraryService.searchLibrariesByName(name);
         return ResponseEntity.ok(LibraryDTO.fromEntities(libraries));
     }
 
-    // 5. filter by category
+    // filter by category
     @GetMapping("/category/{category}")
     public ResponseEntity<List<LibraryDTO>> getByCategory(@PathVariable String category) {
         List<Library> libraries = libraryService.getLibrariesByCategory(category);
+        return ResponseEntity.ok(LibraryDTO.fromEntities(libraries));
+    }
+
+    // most popular controller
+    @GetMapping("/popular")
+    public ResponseEntity<List<LibraryDTO>> getMostPopular() {
+        List<Library> libraries = libraryService.getMostPopular();
         return ResponseEntity.ok(LibraryDTO.fromEntities(libraries));
     }
 }
